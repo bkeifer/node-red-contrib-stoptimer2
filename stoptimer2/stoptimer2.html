@@ -30,7 +30,16 @@
         outputs:2,
         icon: "stoptimer.png",
         label: function() {
-            return this.name || this.duration + " " + this.units + " Timer";
+            if (this.name) {
+                return this.name;
+            } else {
+                if (['env', 'flow', 'global'].includes(this.durationType)) {
+                    var labelDuration = this.durationType + "." + this.duration;
+                } else {
+                    var labelDuration = this.duration;
+                }
+                return labelDuration + " " + this.units + " Timer";
+            }
         },
         labelStyle: function() {
             return this.name?"node_label_italic":"";
@@ -52,7 +61,7 @@
         $("#node-input-duration").typedInput({
         default: 'num',
             typeField: $("#node-input-durationType"),
-        types:['num','env']
+        types:['num','env','flow','global']
             });
 
 
